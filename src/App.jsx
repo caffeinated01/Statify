@@ -6,10 +6,13 @@ import Tracks from "./Components/Tracks";
 import Artists from "./Components/Artists";
 
 function App() {
-  const CLIENT_ID = "b2f3191484834737a772a2700351dca1";
-  const REDIRECT_URI = "http://localhost:5173/";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const CLIENT_ID = "b2f3191484834737a772a2700351dca1";
   const RESPONSE_TYPE = "token";
+  const REDIRECT_URI = "http://localhost:5173/";
+  const SCOPE = "user-top-read"
+
+  const AUTH_URL = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&response_type=${RESPONSE_TYPE}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`
 
   const [token, setToken] = useState("");
 
@@ -37,14 +40,14 @@ function App() {
 
   return (
     <>
-      <div className="bg-bg-primary h-screen text-gray-200">
+      <div className="bg-bg-primary min-h-screen max-w-screen text-gray-200">
         <LoginContext.Provider value={{ token, setToken }}>
           <Header />
           <Routes>
             <Route
               path="/"
               element={
-                <div className="mx-5 my-5 flex flex-col items-center justify-center gap-10 py-10">
+                <div className="mx-5 my-5 flex items-center justify-center gap-10 py-10">
                   <div className="bg-bg-secondary relative flex w-[1000px] flex-col items-center justify-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5 shadow-2xl">
                     <h1 className="text-2xl">Statify</h1>
                     {!token ? (
@@ -53,7 +56,7 @@ function App() {
                           Please login with Spotify to continue!
                         </p>
                         <a
-                          href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+                          href={AUTH_URL}
                         >
                           <button className="rounded-md bg-[#1DB954] px-5 py-1 font-extralight text-white hover:bg-[#128039]">
                             Login with Spotify
@@ -74,11 +77,12 @@ function App() {
                   </div>
                   {token ? (
                     <>
-                      {" "}
-                      <h1>Choose what to see</h1>
+                      {/* TODO: Add buttons for each page */}
+                      <h1>Choose what to see</h1> 
                     </>
                   ) : (
                     <>
+                      {/* TODO: List features */}
                       <h1>what u can see</h1>
                     </>
                   )}
