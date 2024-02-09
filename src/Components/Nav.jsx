@@ -23,7 +23,7 @@ function Nav(){
             </div>
         </nav>
         {isOpen && (
-            <div className="flex flex-col items-center basis-full">   
+            <div className="flex flex-col items-center basis-full">
                 <Link to="/top_tracks">Top Tracks</Link>
                 <Link to="/top_artists">Top Artists</Link>
             </div>
