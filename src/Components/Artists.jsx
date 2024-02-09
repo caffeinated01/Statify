@@ -16,7 +16,7 @@ function Artists(){
                     Authorization: `Bearer ${token}`
                 },
                 params: {
-                        time_range: timeRange, // TODO: Make this changeable with a dropdown menu or smt (short_term, medium_term, long_term)
+                        time_range: timeRange,
                         limit: 30,
                         offset: 0
                 }
@@ -29,8 +29,6 @@ function Artists(){
     function handleTimeRangeChange(e){
         setTimeRange(e.target.value);
     }
-
-    // TODO: Add dropdown menu to change time range
     
     return(
         <>
