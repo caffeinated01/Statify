@@ -36,11 +36,15 @@ function Artists(){
         <>
             <div className="flex flex-col items-center justify-center gap-10 py-10">
                 <h1 className="text-2xl">Top Artists</h1>
-                <select onChange={handleTimeRangeChange} className="h-10 px-3 text-white bg-bg-secondary rounded-md border-[1px] border-[#ffffff1a] appearance-none">
-                    <option value="short_term">Last 4 weeks </option>
-                    <option value="medium_term">Last 6 months</option>
-                    <option value="long_term">All time</option>
-                </select>
+                <div className="flex flex-col items-center justify-center gap-1">
+                    <h1>Time range</h1>
+                    <ChevronDown />
+                    <select onChange={handleTimeRangeChange} className="h-10 px-3 text-white bg-bg-secondary rounded-md border-[1px] border-[#ffffff1a] appearance-none">
+                        <option value="short_term">Last 4 weeks </option>
+                        <option value="medium_term">Last 6 months</option>
+                        <option value="long_term">All time</option>
+                    </select>
+                </div>
                 <div className="flex flex-wrap items-center justify-center">
                     {artistsJSON.map((artist, index) => (
                         <div key={index} className="mx-4 my-4 bg-bg-secondary relative flex flex-col items-center justify-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5 shadow-2xl">
@@ -52,7 +56,7 @@ function Artists(){
                                     </div>
                                 </div>
                                 
-                                <img className="w-[400px] h-[400px] object-cover rounded-sm" src={artist.images[0]["url"]}></img>
+                                <img className="w-[400px] h-[400px] object-scale-down rounded-sm" src={artist.images[0]["url"]}></img>
                             </div>
                         </div>
                     ))}
