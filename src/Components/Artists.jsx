@@ -23,7 +23,6 @@ function Artists(){
             setArtistsJson(data.items)
         };
         fetchTopArtists();
-        console.log(JSON.stringify(artistsJSON, null, 2))
     }, []);
 
     // TODO: Add dropdown menu to change time range
@@ -32,11 +31,10 @@ function Artists(){
         <>
             <div className="flex flex-col items-center justify-center gap-10 py-10">
                 <h1 className="text-2xl">Top Artists</h1>
-
                 <div className="flex flex-wrap items-center justify-center">
                     {artistsJSON.map((artist, index) => (
-                        <div className="mx-4 my-4 bg-bg-secondary relative flex flex-col items-center justify-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5 shadow-2xl">
-                            <div key={artist.id}>
+                        <div key={index} className="mx-4 my-4 bg-bg-secondary relative flex flex-col items-center justify-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5 shadow-2xl">
+                            <div>
                                 <div className="flex justify-between">
                                     <h1 className="py-1">{index+1}. {artist.name}</h1>
                                     <div className="hover:bg-slate-200 hover:text-black w-[23px] h-[23px] rounded-md pl-0.5 pt-[1px]">
