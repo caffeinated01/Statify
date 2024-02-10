@@ -10,9 +10,9 @@ function App() {
   const CLIENT_ID = "b2f3191484834737a772a2700351dca1";
   const RESPONSE_TYPE = "token";
   const REDIRECT_URI = "http://localhost:5173/";
-  const SCOPE = "user-top-read"
+  const SCOPE = "user-top-read";
 
-  const AUTH_URL = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&response_type=${RESPONSE_TYPE}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`
+  const AUTH_URL = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&response_type=${RESPONSE_TYPE}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`;
 
   const [token, setToken] = useState("");
 
@@ -40,7 +40,7 @@ function App() {
 
   return (
     <>
-      <div className="bg-bg-primary min-h-screen max-w-screen text-gray-200">
+      <div className="bg-bg-primary max-w-screen min-h-screen text-gray-200">
         <LoginContext.Provider value={{ token, setToken, AUTH_URL }}>
           <Header />
           <Routes>
@@ -55,9 +55,7 @@ function App() {
                         <p className="text-sm">
                           Please login with Spotify to continue!
                         </p>
-                        <a
-                          href={AUTH_URL}
-                        >
+                        <a href={AUTH_URL}>
                           <button className="rounded-md bg-[#1DB954] px-5 py-1 font-extralight text-white hover:bg-[#128039]">
                             Login with Spotify
                           </button>
