@@ -1,15 +1,27 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import LoginContext from "../LoginContext";
-import { Navigate } from "react-router-dom";
-import { ExternalLink, ChevronDown } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import Select from "react-select";
 
 function Artists(){
     const loginContext = useContext(LoginContext);
     const token = localStorage.getItem("token");
     const [artistsJSON, setArtistsJson] = useState([])
-    const [timeRange, setTimeRange] = useState("short_term")
+    const [timeRange, setTimeRange] = useState({value: "medium_term", label: "Past 6 months"})
+    const timeRangeOptions = [
+        {value: "short_term", label: "Past 4 weeks"},
+        {value: "medium_term", label: "Past 6 months"},
+        {value: "long_term", label: "All time"},
+    ]
 
+    const selectStyle = {
+        control: (styles) => ({...styles, backgroundColor: "#1b1a1b", borderRadius: "0.375rem", borderColor: "1px", borderColor: "#ffffff1a"}),
+        option: (styles) => ({...styles, color: "white", backgroundColor: ""}),
+        singleValue: (styles) => ({...styles, color: "white"}),
+        container: (styles) => ({...styles, width: "12rem"}),
+        menu: (styles) => ({...styles, backgroundColor: "#252526"})
+    }
 
     useEffect(()=>{
         async function fetchTopArtists(){
@@ -18,7 +30,7 @@ function Artists(){
                     Authorization: `Bearer ${token}`
                 },
                 params: {
-                        time_range: timeRange,
+                        time_range: timeRange["value"],
                         limit: 30,
                         offset: 0
                 }
@@ -45,22 +57,16 @@ function Artists(){
         });
     }, [timeRange]);
 
-    function handleTimeRangeChange(e){
-        setTimeRange(e.target.value);
+    function handleTimeRangeChange(selected){
+        setTimeRange(selected);
     }
 
     return(
         <>
             <div className="flex flex-col items-center justify-center gap-10 py-10">
-                <h1 className="text-2xl">Top Artists</h1>
+                <h1 className="text-2xl">Top Artists, {timeRange["label"].charAt(0).toLowerCase() + timeRange["label"].slice(1)}</h1>
                 <div className="flex flex-col items-center justify-center gap-1">
-                    <h1>Time range</h1>
-                    <ChevronDown />
-                    <select onChange={handleTimeRangeChange} className="h-10 px-3 text-white bg-bg-secondary rounded-md border-[1px] border-[#ffffff1a] appearance-none">
-                        <option value="short_term">Last 4 weeks </option>
-                        <option value="medium_term">Last 6 months</option>
-                        <option value="long_term">All time</option>
-                    </select>
+                    <Select onChange={handleTimeRangeChange} options={timeRangeOptions} placeholder={"Select time range"} styles={selectStyle}/>
                 </div>
                 <div className="flex flex-wrap items-center justify-center">
                     {artistsJSON.map((artist, index) => (
@@ -68,7 +74,7 @@ function Artists(){
                             <div>
                                 <div className="flex justify-between">
                                     <h1 className="py-1">{index+1}. {artist.name}</h1>
-                                    <div className="hover:bg-slate-200 hover:text-black w-[23px] h-[23px] rounded-md pl-0.5 pt-[1px]">
+                                    <div className="hover:bg-slate-200 hover:text-black w-[23px] h-[23px] rounded-md pl-0.5 pt-[1px] ease-in duration-200">
                                         <a href={artist.external_urls["spotify"]} target="_blank"><ExternalLink size={20} /></a>
                                     </div>
                                 </div>
