@@ -41,7 +41,7 @@ function App() {
   return (
     <>
       <div className="bg-bg-primary min-h-screen max-w-screen text-gray-200">
-        <LoginContext.Provider value={{ token, setToken }}>
+        <LoginContext.Provider value={{ token, setToken, AUTH_URL }}>
           <Header />
           <Routes>
             <Route
@@ -78,7 +78,7 @@ function App() {
                   {token ? (
                     <>
                       {/* TODO: Add buttons for each page */}
-                      <h1>Choose what to see</h1> 
+                      <h1>Choose what to see</h1>
                     </>
                   ) : (
                     <>
