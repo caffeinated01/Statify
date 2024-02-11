@@ -12,7 +12,7 @@ function App() {
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const CLIENT_ID = "b2f3191484834737a772a2700351dca1";
   const RESPONSE_TYPE = "token";
-  const REDIRECT_URI = "http://localhost:5173/";
+  const REDIRECT_URI = "https://statify-app.vercel.app/";
   const SCOPE =
     "user-top-read,playlist-modify-public,playlist-modify-private,user-read-private,user-read-email";
 
