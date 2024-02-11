@@ -46,8 +46,8 @@ function App() {
     async function getUserData() {
       const { data } = await axios.get("https://api.spotify.com/v1/me/", {
         headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
       });
       setUserInfoJSON(data);
@@ -68,7 +68,7 @@ function App() {
                 <div>
                   <div className="mx-5 my-5 flex items-center justify-center gap-10 py-10">
                     <div className="bg-bg-secondary relative flex w-[1000px] flex-col items-center justify-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5 shadow-2xl">
-                      <h1 className="text-2xl">Statify</h1>
+                      <h1 className="text-3xl">Statify</h1>
                       {!token ? (
                         <>
                           <p className="text-sm">
@@ -82,9 +82,9 @@ function App() {
                         </>
                       ) : (
                         <>
-                          <p className="text-md text-gray-300">
+                          <p className="text-md">
                             Hi,{" "}
-                            <span className="text-white">
+                            <span className="text-green-500">
                               {userInfoJSON.display_name}
                             </span>
                             . Welcome to Statify!
@@ -101,32 +101,46 @@ function App() {
                   </div>
                   <div className="m-auto max-w-[400px]">
                     <div className="flex items-center justify-center gap-4 pb-7 mx-5">
-                      <AudioLines size={100} strokeWidth={1.5} />
+                      <AudioLines
+                        size={100}
+                        strokeWidth={1.5}
+                        className="text-gray-400"
+                      />
                       <div className="flex-col">
-                        <h1 className="text-2xl">Your listening statistics</h1>
-                        <p>
+                        <h1 className="text-2xl font-bold">
+                          Your listening statistics
+                        </h1>
+                        <p className="text-gray-300">
                           View your most listened artists as well as tracks, in
                           three different time spans!
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center justify-center gap-4 pb-7 mx-5">
-                      <ListMusic size={100} strokeWidth={1.5} />
+                      <ListMusic
+                        size={100}
+                        strokeWidth={1.5}
+                        className="text-gray-400"
+                      />
                       <div className="flex-col">
                         <h1 className="text-2xl font-bold">
                           Generate playlists
                         </h1>
-                        <p>
+                        <p className="text-gray-300">
                           Create playlists based on your favourite tracks with
                           just a click of a button!
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center justify-center gap-4 pb-7 mx-5">
-                      <Code size={100} strokeWidth={1.5} />
+                      <Code
+                        size={100}
+                        strokeWidth={1.5}
+                        className="text-gray-400"
+                      />
                       <div className="flex-col">
                         <h1 className="text-2xl font-bold">Open source</h1>
-                        <p>
+                        <p className="text-gray-300">
                           This website is entirely open source. Check out the
                           source code{" "}
                           <span className="underline">
@@ -138,12 +152,16 @@ function App() {
                       </div>
                     </div>
                     <div className="flex items-center justify-center gap-4 pb-7 mx-5">
-                      <CalendarFold size={100} strokeWidth={1.5} />
+                      <CalendarFold
+                        size={100}
+                        strokeWidth={1.5}
+                        className="text-gray-400"
+                      />
                       <div className="flex-col">
                         <h1 className="text-2xl font-bold">
                           More features planned
                         </h1>
-                        <p>
+                        <p className="text-gray-300">
                           Since this website is a work in progress, more
                           features will be added eventually
                         </p>

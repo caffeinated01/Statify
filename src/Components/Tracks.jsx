@@ -15,7 +15,7 @@ function Tracks() {
     { value: "long_term", label: "All Time" },
   ];
   const [timeRange, setTimeRange] = useState(timeRangeOptions[0]);
-  const [playlistJSON, setPlaylistJSON] = useState({})
+  const [playlistJSON, setPlaylistJSON] = useState({});
   const [isGenerated, setIsGenerated] = useState(false);
 
   const selectStyle = {
@@ -101,7 +101,7 @@ function Tracks() {
     };
 
     const { data } = await axios.request(playlistConfig);
-    setPlaylistJSON(data)
+    setPlaylistJSON(data);
 
     let trackURIs = "";
     tracksJSON.map((track) => {
@@ -126,7 +126,7 @@ function Tracks() {
     };
 
     await axios.request(tracksConfig);
-    setIsGenerated(true)
+    setIsGenerated(true);
   }
 
   return (
@@ -149,9 +149,7 @@ function Tracks() {
             </button>
           ) : (
             <a href={playlistJSON.external_urls["spotify"]} target="_blank">
-              <button
-                className="rounded-md bg-sky-600 px-5 py-1 font-extralight text-white hover:bg-sky-700 duration-100 ease-in"
-              >
+              <button className="rounded-md bg-sky-600 px-5 py-1 font-extralight text-white hover:bg-sky-700 duration-100 ease-in">
                 View playlist
               </button>
             </a>
