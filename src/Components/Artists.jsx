@@ -20,7 +20,6 @@ function Artists() {
       ...styles,
       backgroundColor: "#1b1a1b",
       borderRadius: "0.375rem",
-      borderColor: "1px",
       borderColor: "#ffffff1a",
     }),
     option: (styles) => ({ ...styles, color: "white", backgroundColor: "" }),
@@ -36,10 +35,11 @@ function Artists() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
           params: {
             time_range: timeRange["value"],
-            limit: 30,
+            limit: 50,
             offset: 0,
           },
         }
@@ -82,11 +82,11 @@ function Artists() {
             styles={selectStyle}
           />
         </div>
-        <div className="flex flex-wrap items-center justify-center">
+        <div className="flex flex-wrap max-w-[1500px] items-center justify-center">
           {artistsJSON.map((artist, index) => (
             <div
               key={index}
-              className="bg-bg-secondary relative mx-4 my-4 flex flex-col items-center justify-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5 shadow-2xl"
+              className="bg-bg-secondary relative mx-4 my-4 flex flex-col items-center justify-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5"
             >
               <div>
                 <div className="flex justify-between">

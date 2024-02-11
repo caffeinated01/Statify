@@ -1,24 +1,30 @@
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import LoginContext from "./LoginContext";
 import Header from "./Components/Header";
 import Tracks from "./Components/Tracks";
 import Artists from "./Components/Artists";
+import Footer from "./Components/Footer";
+import { AudioLines, ListMusic, Code, CalendarFold } from "lucide-react";
+import axios from "axios";
 
 function App() {
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const CLIENT_ID = "b2f3191484834737a772a2700351dca1";
   const RESPONSE_TYPE = "token";
   const REDIRECT_URI = "http://localhost:5173/";
-  const SCOPE = "user-top-read";
+  const SCOPE =
+    "user-top-read,playlist-modify-public,playlist-modify-private,user-read-private,user-read-email";
 
   const AUTH_URL = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&response_type=${RESPONSE_TYPE}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`;
 
   const [token, setToken] = useState("");
+  const [userInfoJSON, setUserInfoJSON] = useState({});
 
   function logout() {
     setToken("");
     window.localStorage.removeItem("token");
+    setUserInfoJSON({});
   }
 
   useEffect(() => {
@@ -36,61 +42,121 @@ function App() {
       window.localStorage.setItem("token", token);
     }
     setToken(token);
+
+    async function getUserData() {
+      const { data } = await axios.get("https://api.spotify.com/v1/me/", {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+      });
+      setUserInfoJSON(data);
+    }
+
+    getUserData();
   }, []);
 
   return (
     <>
-      <div className="bg-bg-primary max-w-screen min-h-screen text-gray-200">
-        <LoginContext.Provider value={{ token, setToken, AUTH_URL }}>
+      <div className="bg-bg-primary max-w-screen min-h-screen text-gray-200 select-none">
+        <LoginContext.Provider value={{ AUTH_URL, userInfoJSON }}>
           <Header />
           <Routes>
             <Route
               path="/"
               element={
-                <div className="mx-5 my-5 flex items-center justify-center gap-10 py-10">
-                  <div className="bg-bg-secondary relative flex w-[1000px] flex-col items-center justify-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5 shadow-2xl">
-                    <h1 className="text-2xl">Statify</h1>
-                    {!token ? (
-                      <>
-                        <p className="text-sm">
-                          Please login with Spotify to continue!
-                        </p>
-                        <a href={AUTH_URL}>
-                          <button className="rounded-md bg-[#1DB954] px-5 py-1 font-extralight text-white hover:bg-[#128039]">
-                            Login with Spotify
+                <div>
+                  <div className="mx-5 my-5 flex items-center justify-center gap-10 py-10">
+                    <div className="bg-bg-secondary relative flex w-[1000px] flex-col items-center justify-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5 shadow-2xl">
+                      <h1 className="text-2xl">Statify</h1>
+                      {!token ? (
+                        <>
+                          <p className="text-sm">
+                            Please login with Spotify to continue!
+                          </p>
+                          <a href={AUTH_URL}>
+                            <button className="rounded-md bg-green-600 px-5 py-1 font-extralight text-white hover:bg-green-700 duration-100 ease-in">
+                              Login with Spotify
+                            </button>
+                          </a>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-md text-gray-300">
+                            Hi,{" "}
+                            <span className="text-white">
+                              {userInfoJSON.display_name}
+                            </span>
+                            . Welcome to Statify!
+                          </p>
+                          <button
+                            onClick={logout}
+                            className="rounded-md bg-red-600 px-5 py-1 font-extralight text-white hover:bg-red-900 duration-100 ease-in"
+                          >
+                            Logout
                           </button>
-                        </a>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-sm">Welcome to Statify!</p>
-                        <button
-                          onClick={logout}
-                          className="rounded-md bg-[#e54c3e] px-5 py-1 font-extralight text-white hover:bg-[#9d433b]"
-                        >
-                          Logout
-                        </button>
-                      </>
-                    )}
+                        </>
+                      )}
+                    </div>
                   </div>
-                  {token ? (
-                    <>
-                      {/* TODO: Add buttons for each page */}
-                      <h1>Choose what to see</h1>
-                    </>
-                  ) : (
-                    <>
-                      {/* TODO: List features */}
-                      <h1>what u can see</h1>
-                    </>
-                  )}
+                  <div className="m-auto max-w-[400px]">
+                    <div className="flex items-center justify-center gap-4 pb-7 mx-5">
+                      <AudioLines size={100} strokeWidth={1.5} />
+                      <div className="flex-col">
+                        <h1 className="text-2xl">Your listening statistics</h1>
+                        <p>
+                          View your most listened artists as well as tracks, in
+                          three different time spans!
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-center gap-4 pb-7 mx-5">
+                      <ListMusic size={100} strokeWidth={1.5} />
+                      <div className="flex-col">
+                        <h1 className="text-2xl font-bold">
+                          Generate playlists
+                        </h1>
+                        <p>
+                          Create playlists based on your favourite tracks with
+                          just a click of a button!
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-center gap-4 pb-7 mx-5">
+                      <Code size={100} strokeWidth={1.5} />
+                      <div className="flex-col">
+                        <h1 className="text-2xl font-bold">Open source</h1>
+                        <p>
+                          This website is entirely open source. Check out the
+                          source code{" "}
+                          <span className="underline">
+                            <a href="https://github.com/caffeinated01/statify">
+                              here
+                            </a>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-center gap-4 pb-7 mx-5">
+                      <CalendarFold size={100} strokeWidth={1.5} />
+                      <div className="flex-col">
+                        <h1 className="text-2xl font-bold">
+                          More features planned
+                        </h1>
+                        <p>
+                          Since this website is a work in progress, more
+                          features will be added eventually
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               }
             />
-
             <Route path="/top_tracks" element={<Tracks />} />
             <Route path="/top_artists" element={<Artists />} />
           </Routes>
+          <Footer />
         </LoginContext.Provider>
       </div>
     </>
