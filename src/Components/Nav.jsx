@@ -15,6 +15,7 @@ function Nav() {
         <div className="hidden w-full justify-between gap-4 md:flex">
           <Link to="/top_tracks">Top Tracks</Link>
           <Link to="/top_artists">Top Artists</Link>
+          <Link to="/privacy_policy">Privacy</Link>
         </div>
         <div className="md:hidden">
           <button onClick={toggleNavbar}>{isOpen ? <X /> : <Menu />}</button>
@@ -27,6 +28,9 @@ function Nav() {
           </Link>
           <Link to="/top_artists" onClick={toggleNavbar}>
             Top Artists
+          </Link>
+          <Link to="/privacy_policy" onClick={toggleNavbar}>
+            Privacy
           </Link>
         </div>
       )}

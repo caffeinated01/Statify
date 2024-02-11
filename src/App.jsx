@@ -4,6 +4,7 @@ import LoginContext from "./LoginContext";
 import Header from "./Components/Header";
 import Tracks from "./Components/Tracks";
 import Artists from "./Components/Artists";
+import Privacy from "./Components/Privacy";
 import Footer from "./Components/Footer";
 import { AudioLines, ListMusic, Code, CalendarFold } from "lucide-react";
 import axios from "axios";
@@ -54,6 +55,23 @@ function App() {
     }
 
     getUserData();
+
+    function getNewToken() {
+      window.location.href = AUTH_URL;
+      const hash = window.location.hash;
+      let token = hash;
+      window.location.hash = "";
+      return token;
+    }
+
+    axios.interceptors.response.use(null, async (error) => {
+      if (error.response.status === 401) {
+        const newToken = await getNewToken();
+        window.localStorage.setItem("token", newToken);
+      }
+
+      return Promise.reject(error);
+    });
   }, []);
 
   return (
@@ -173,6 +191,7 @@ function App() {
             />
             <Route path="/top_tracks" element={<Tracks />} />
             <Route path="/top_artists" element={<Artists />} />
+            <Route path="/privacy_policy" element={<Privacy />} />
           </Routes>
           <Footer />
         </LoginContext.Provider>
