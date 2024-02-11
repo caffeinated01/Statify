@@ -85,7 +85,7 @@ function App() {
               element={
                 <div>
                   <div className="mx-5 my-5 flex items-center justify-center gap-10 py-10">
-                    <div className="bg-bg-secondary relative flex w-[1000px] flex-col items-center justify-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5 shadow-2xl">
+                    <div className="bg-bg-secondary relative flex w-[1000px] flex-col items-center justify-center text-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5 shadow-2xl">
                       <h1 className="text-3xl">Statify</h1>
                       {!token ? (
                         <>
