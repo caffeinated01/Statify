@@ -8,13 +8,13 @@ import Privacy from "./Components/Privacy";
 import Footer from "./Components/Footer";
 import { AudioLines, ListMusic, Code, CalendarFold } from "lucide-react";
 import axios from "axios";
-import { FaSpotify } from "react-icons/fa";
 
 function App() {
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const REDIRECT_URI = "https://3plzpq-5173.csb.app/";
   const CLIENT_ID = "b2f3191484834737a772a2700351dca1";
   const RESPONSE_TYPE = "token";
-  const REDIRECT_URI = "https://statify-app.vercel.app/";
+  // const REDIRECT_URI = "https://statify-app.vercel.app/";
   const SCOPE =
     "user-top-read,playlist-modify-public,playlist-modify-private,user-read-private,user-read-email";
 
