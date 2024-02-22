@@ -45,7 +45,7 @@ function Tracks() {
             limit: 50,
             offset: 0,
           },
-        }
+        },
       );
       setTracksJSON(data.items);
     }
@@ -148,7 +148,11 @@ function Tracks() {
               Generate playlist
             </button>
           ) : (
-            <a href={playlistJSON.external_urls["spotify"]} target="_blank">
+            <a
+              href={playlistJSON.external_urls["spotify"]}
+              target="_blank"
+              rel="noreferrer"
+            >
               <button className="rounded-md bg-sky-600 px-5 py-1 font-extralight text-white hover:bg-sky-700 duration-100 ease-in">
                 View playlist
               </button>

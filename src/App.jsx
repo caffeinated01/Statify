@@ -8,6 +8,7 @@ import Privacy from "./Components/Privacy";
 import Footer from "./Components/Footer";
 import { AudioLines, ListMusic, Code, CalendarFold } from "lucide-react";
 import axios from "axios";
+import { FaSpotify } from "react-icons/fa";
 
 function App() {
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";

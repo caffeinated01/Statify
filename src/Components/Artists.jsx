@@ -42,7 +42,7 @@ function Artists() {
             limit: 50,
             offset: 0,
           },
-        }
+        },
       );
       setArtistsJson(data.items);
     }
@@ -96,7 +96,7 @@ function Artists() {
                   <LinkIcon link={artist.external_urls["spotify"]} />
                 </div>
                 <img
-                  className="h-[400px] w-[400px] rounded-sm object-scale-down"
+                  className="h-[400px] w-[400px] object-scale-down"
                   src={artist.images[0]["url"]}
                 ></img>
               </div>
