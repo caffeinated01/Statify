@@ -33,6 +33,21 @@ export const createAuthHeaders = (token) => ({
   "Content-Type": "application/json",
 });
 
+// Setup axios interceptor for automatic token refresh
+export const setupAxiosInterceptor = (AUTH_URL) => {
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response?.status === 401) {
+        console.log("Token expired, redirecting to login");
+        removeToken();
+        window.location.href = AUTH_URL;
+      }
+      return Promise.reject(error);
+    }
+  );
+};
+
 // Make authenticated API calls
 export const makeSpotifyAPICall = async (url, token, params = {}) => {
   try {

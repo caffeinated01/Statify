@@ -6,6 +6,7 @@ import {
   removeToken,
   extractTokenFromHash,
   makeSpotifyAPICall,
+  setupAxiosInterceptor,
 } from "../utils/spotifyUtils";
 
 export const useSpotifyAuth = () => {
@@ -35,6 +36,8 @@ export const useSpotifyAuth = () => {
   };
 
   useEffect(() => {
+    setupAxiosInterceptor(AUTH_URL); // Auto token refresh
+
     const hash = window.location.hash;
     let storedToken = getStoredToken();
 
@@ -52,7 +55,7 @@ export const useSpotifyAuth = () => {
       setToken(storedToken);
       getUserData(storedToken);
     }
-  }, []);
+  }, [AUTH_URL]);
 
   return {
     token,
