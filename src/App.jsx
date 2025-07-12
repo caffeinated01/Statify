@@ -5,7 +5,7 @@ import Tracks from "./components/Tracks";
 import Artists from "./components/Artists";
 import Privacy from "./components/Privacy";
 import Footer from "./components/Footer";
-import { AudioLines, ListMusic, Code, CalendarFold } from "lucide-react";
+import { AudioLines, ListMusic, Code } from "lucide-react";
 import { useSpotifyAuth } from "./hooks/useSpotifyAuth";
 
 function App() {
@@ -109,22 +109,6 @@ function App() {
                         </p>
                       </div>
                     </div>
-                    {/* <div className="flex items-center justify-center gap-4 pb-7 mx-5">
-                      <CalendarFold
-                        size={100}
-                        strokeWidth={1.5}
-                        className="text-gray-400"
-                      />
-                      <div className="flex-col">
-                        <h1 className="text-2xl font-bold">
-                          More features planned
-                        </h1>
-                        <p className="text-gray-300">
-                          Since this website is a work in progress, more
-                          features will be added eventually
-                        </p>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               }
