@@ -1,10 +1,11 @@
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import LoginContext from "../LoginContext";
 
 function Nav() {
   const [isOpen, setIsOpen] = useState(false);
-  const token = window.localStorage.getItem("token");
+  const { isAuthenticated } = useContext(LoginContext);
 
   function toggleNavbar() {
     setIsOpen(!isOpen);
@@ -17,16 +18,13 @@ function Nav() {
           <Link to="/top_tracks">Top Tracks</Link>
           <Link to="/top_artists">Top Artists</Link>
           <Link to="/privacy_policy">Privacy</Link>
-          {token ? (
-            <a
-              href="/"
-              onClick={() => {
-                alert("Logout @ Homepage");
-              }}
+          {isAuthenticated ? (
+            <Link
+              to="/"
               className="rounded-md bg-red-600 px-5 py-[0.5px] font-extralight text-white hover:bg-red-900 duration-100 ease-in"
             >
               Logout
-            </a>
+            </Link>
           ) : (
             <></>
           )}
@@ -46,15 +44,15 @@ function Nav() {
           <Link to="/privacy_policy" onClick={toggleNavbar}>
             Privacy
           </Link>
-          <a
-            href="/"
-            onClick={() => {
-              alert("Logout @ Homepage");
-            }}
-            className="rounded-md bg-red-600 px-5 py-1 font-extralight text-white hover:bg-red-900 duration-100 ease-in"
-          >
-            Logout
-          </a>
+          {isAuthenticated && (
+            <Link
+              to="/"
+              onClick={toggleNavbar}
+              className="rounded-md bg-red-600 px-5 py-1 font-extralight text-white hover:bg-red-900 duration-100 ease-in"
+            >
+              Logout
+            </Link>
+          )}
         </div>
       )}
     </>

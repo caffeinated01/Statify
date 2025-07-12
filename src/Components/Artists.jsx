@@ -1,91 +1,37 @@
-import { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import { useContext, useState } from "react";
 import LoginContext from "../LoginContext";
 import LinkIcon from "./LinkIcon";
 import Select from "react-select";
+import { TIME_RANGE_OPTIONS, SELECT_STYLES } from "../utils/constants";
+import { useSpotifyData } from "../hooks/useSpotifyData";
 
 function Artists() {
-  const loginContext = useContext(LoginContext);
-  const token = localStorage.getItem("token");
-  const [artistsJSON, setArtistsJson] = useState([]);
-  const timeRangeOptions = [
-    { value: "short_term", label: "Past 4 Weeks" },
-    { value: "medium_term", label: "Past 6 Months" },
-    { value: "long_term", label: "All Time" },
-  ];
-  const [timeRange, setTimeRange] = useState(timeRangeOptions[0]);
-
-  const selectStyle = {
-    control: (styles) => ({
-      ...styles,
-      backgroundColor: "#1b1a1b",
-      borderRadius: "0.375rem",
-      borderColor: "#ffffff1a",
-    }),
-    option: (styles) => ({ ...styles, color: "white", backgroundColor: "" }),
-    singleValue: (styles) => ({ ...styles, color: "white" }),
-    container: (styles) => ({ ...styles, width: "12rem" }),
-    menu: (styles) => ({ ...styles, backgroundColor: "#252526" }),
-  };
-
-  useEffect(() => {
-    async function fetchTopArtists() {
-      const { data } = await axios.get(
-        "https://api.spotify.com/v1/me/top/artists",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          params: {
-            time_range: timeRange["value"],
-            limit: 50,
-            offset: 0,
-          },
-        },
-      );
-      setArtistsJson(data.items);
-    }
-    fetchTopArtists();
-
-    function getNewToken() {
-      window.location.href = loginContext.AUTH_URL;
-      const hash = window.location.hash;
-      let token = hash;
-      window.location.hash = "";
-      return token;
-    }
-
-    axios.interceptors.response.use(null, async (error) => {
-      if (error.response.status === 401) {
-        const newToken = await getNewToken();
-        window.localStorage.setItem("token", newToken);
-      }
-
-      return Promise.reject(error);
-    });
-  }, [timeRange]);
+  const { token } = useContext(LoginContext);
+  const { artists, setArtistsTimeRangeAndFetch } = useSpotifyData(token);
+  const [timeRange, setTimeRange] = useState(TIME_RANGE_OPTIONS[0]);
 
   function handleTimeRangeChange(selected) {
     setTimeRange(selected);
+    setArtistsTimeRangeAndFetch(selected.value);
   }
 
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-10 py-10">
-        <h1 className="text-2xl">Top Artists, {timeRange["label"]}</h1>
+        <h1 className="text-2xl">Top Artists, {timeRange.label}</h1>
         <div className="flex flex-col items-center justify-center gap-1">
           <Select
             onChange={handleTimeRangeChange}
-            options={timeRangeOptions}
+            options={TIME_RANGE_OPTIONS}
             placeholder={"Select time range"}
-            styles={selectStyle}
+            styles={SELECT_STYLES}
+            value={timeRange}
           />
         </div>
         <div className="flex flex-wrap max-w-[1500px] items-center justify-center">
-          {artistsJSON.map((artist, index) => (
+          {artists.map((artist, index) => (
             <div
-              key={index}
+              key={artist.id || index}
               className="bg-bg-secondary relative mx-4 my-4 flex flex-col items-center justify-center gap-2 rounded-md border-[1px] border-[#ffffff1a] px-5 py-5"
             >
               <div>
@@ -93,12 +39,13 @@ function Artists() {
                   <h1 className="py-1">
                     {index + 1}. {artist.name}
                   </h1>
-                  <LinkIcon link={artist.external_urls["spotify"]} />
+                  <LinkIcon link={artist.external_urls?.spotify} />
                 </div>
                 <img
                   className="h-[400px] w-[400px] object-scale-down"
-                  src={artist.images[0]["url"]}
-                ></img>
+                  src={artist.images?.[0]?.url}
+                  alt={`${artist.name} artist image`}
+                />
               </div>
             </div>
           ))}
